@@ -5,7 +5,7 @@ let IMAGE_SIZE = 48;
 let predictionsElement = document.getElementById("predictions");
 let pastPredictions = [];
 const MODEL_PROMISE = async () => {
-  model = await tf.loadModel(MODEL_PATH);
+  model = await tf.loadLayersModel(MODEL_PATH);
 };
 
 predictSnapshot();
@@ -16,8 +16,8 @@ async function predict(imgElement) {
   if (model != null) {
     const startTime = performance.now();
     const logits = tf.tidy(() => {
-      // tf.fromPixels() returns a Tensor from an image element.
-      const img = tf.fromPixels(imgElement).toFloat();
+      // tf.browser.fromPixels() returns a Tensor from an image element.
+      const img = tf.browser.fromPixels(imgElement).toFloat();
       let gray_img = img.mean(2);
       let final_img = gray_img.expandDims(2);
       // Reshape to a single-element batch so we can pass it to predict.
